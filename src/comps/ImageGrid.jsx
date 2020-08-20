@@ -1,21 +1,33 @@
 import React from 'react';
 import useFireStore from '../hooks/useFirestore';
+import { motion } from 'framer-motion';
 
-const ImageGrid = ({setSelectedImage}) => {
-    const { docs } = useFireStore('images');
-    console.log(docs);
+const ImageGrid = ({ setSelectedImage }) => {
+  const { docs } = useFireStore('images');
+  console.log(docs);
 
-    return (
-        <div className="img-grid">
-            { docs && docs.map(doc => (
-                <div className="img-wrap" key={doc.id}
-                    onClick={() => setSelectedImage(doc.url)}
-                >
-                    <img src={doc.url} alt="document pic"/>
-                </div>
-            ))}
-        </div>
-    )
-}
+  return (
+    <div className="img-grid">
+      {docs &&
+        docs.map((doc) => (
+          <motion.div
+            whileHover={{ opacity: 1 }}
+            layout
+            className="img-wrap"
+            key={doc.id}
+            onClick={() => setSelectedImage(doc.url)}
+          >
+            <motion.img
+              src={doc.url}
+              alt="document pic"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+            />
+          </motion.div>
+        ))}
+    </div>
+  );
+};
 
 export default ImageGrid;
